@@ -107,6 +107,15 @@ static NSString *const destinationReuseID = @"destinationCollectionReuseIdentifi
     
     _searchResult = [NSMutableArray array];
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.navigationController.navigationBar addSubview:self.searchBar];
+    [self.navigationController.navigationBar addSubview:self.nearbyButton];
+}
+-(void)viewDidAppear:(BOOL)animated
+{
+    
+}
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
    // NSLog(@"22");
 }
@@ -116,8 +125,11 @@ static NSString *const destinationReuseID = @"destinationCollectionReuseIdentifi
 }
 -(void) nearbyAction:(UIButton*) sender
 {
+    [self.searchBar removeFromSuperview];
+    [self.nearbyButton removeFromSuperview];
+    NearbyMainViewController * nearby = [[NearbyMainViewController alloc] init];
+    [self.navigationController pushViewController:nearby animated:YES];
 }
-
 -(void) getAllData
 {
     self.dataDict = [NSMutableDictionary new];

@@ -11,4 +11,5 @@
 @interface DestinationMoreViewController : UIViewController
 @property(strong,nonatomic) NSString *urlKeyStr;
 @property(strong,nonatomic) NSDictionary *locationS;
+
 @end

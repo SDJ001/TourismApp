@@ -48,6 +48,7 @@ static NSString *const reuseIdentifier1 = @"cell1";
     [_searchBar setBackgroundColor:[UIColor clearColor]];
     
     [self loadSearchController];
+
     
     _searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
     _searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;

@@ -16,7 +16,6 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uYv-G8-0vL">
                         <rect key="frame" x="8" y="8" width="49" height="49"/>
-                        <color key="backgroundColor" red="0.001346542883" green="1" blue="0.22452661160000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="uYv-G8-0vL" secondAttribute="height" id="Qzg-LH-Bvb"/>
                         </constraints>
@@ -27,7 +26,7 @@
                             <constraint firstAttribute="height" constant="21" id="R0x-KR-lyf"/>
                         </constraints>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="giD-Gy-acl">
@@ -36,7 +35,7 @@
                             <constraint firstAttribute="height" constant="21" id="PED-Ar-We6"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
