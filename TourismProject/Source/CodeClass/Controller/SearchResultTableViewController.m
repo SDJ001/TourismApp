@@ -7,7 +7,7 @@
 //
 
 #import "SearchResultTableViewController.h"
-
+#import "SearchTripTableViewController.h"
 @interface SearchResultTableViewController () <UISearchBarDelegate>
 @property(strong,nonatomic) UISearchBar *searchBar;
 @property(strong,nonatomic) NSMutableDictionary *dataDcit;
@@ -119,11 +119,7 @@ static NSString *const searchUID = @"searchUIdentifier";
     if (indexPath.section == 0) {
         searchPTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:searchPID forIndexPath:indexPath];
         placeModel *model = self.placesArr[indexPath.row];
-        cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:model.icon]]];
-        
-       // [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.icon]];
-        
-          [cell.imageView setImageWithURL:[NSURL URLWithString:model.icon] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+        cell.imageView.image = [UIImage imageNamed:@"destination_64px_1088389_easyicon.net"];
     
         cell.titleLabel.text = model.name;
         NSString *str = model.country[@"name"];
@@ -134,8 +130,7 @@ static NSString *const searchUID = @"searchUIdentifier";
     {
         searchTTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:searchTID forIndexPath:indexPath];
         tripModel *model = self.tripsArr[indexPath.row];
-        //[cell.timgView sd_setImageWithURL:[NSURL URLWithString:model.cover_image]];
-          [cell.imageView setImageWithURL:[NSURL URLWithString:model.cover_image] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+        [cell.timgView sd_setImageWithURL:[NSURL URLWithString:model.cover_image_1600]];
 
         cell.ttitleLabel.text = model.name;
         NSString *ways = [model.waypoints stringValue];
@@ -217,6 +212,34 @@ static NSString *const searchUID = @"searchUIdentifier";
 {
     [self.tableView endEditing:YES];
 }
-
+-(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        //        ElementModel *model = self.elementsArr[indexPath.section];
+        //        NSArray *dataArr = model.data;
+        //        DestinationCityModel *cityModel = [DestinationCityModel initWithDictionary:dataArr[indexPath.row]];
+        //
+        //
+        AllDestinationViewController *destinationVC = [[AllDestinationViewController alloc] init];
+        
+        placeModel *model = self.placesArr[indexPath.row];
+        NSString *str = [model.province[@"url"] substringFromIndex:8];
+        destinationVC.urlStr = str;
+        destinationVC.locationDict = model.province[@"location"];
+        
+        destinationVC.title =@"按热门排序";
+        UINavigationController *destinationNC = [[UINavigationController alloc] initWithRootViewController:destinationVC];
+        
+        [self presentViewController:destinationNC animated:YES completion:nil];
+    }
+    else if (indexPath.section == 1) {
+        SearchTripTableViewController * tourism = [SearchTripTableViewController new];
+        tripModel *model = self.tripsArr[indexPath.row];
+        tourism.Tourism_id = model.tid;
+        UINavigationController *tourismNC = [[UINavigationController alloc] initWithRootViewController:tourism];
+        //    [self.navigationController.navigationBar removeFromSuperview];
+        [self presentViewController:tourismNC animated:YES completion:nil];
+    }
+}
 
 @end
