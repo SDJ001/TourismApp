@@ -64,7 +64,7 @@ static NSString * const reuseStoryDetailIdentifier = @"reuseStoryDetailIdentifie
     _dataDict = [NSMutableDictionary new];
 
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.estimatedRowHeight = 150;
+    self.tableView.estimatedRowHeight = 10;
     self.tableView.rowHeight =UITableViewAutomaticDimension;
     
 }

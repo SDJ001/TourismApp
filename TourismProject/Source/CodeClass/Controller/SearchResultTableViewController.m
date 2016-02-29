@@ -7,7 +7,7 @@
 //
 
 #import "SearchResultTableViewController.h"
-#import "SearchTripTableViewController.h"
+
 @interface SearchResultTableViewController () <UISearchBarDelegate>
 @property(strong,nonatomic) UISearchBar *searchBar;
 @property(strong,nonatomic) NSMutableDictionary *dataDcit;
@@ -58,7 +58,6 @@ static NSString *const searchUID = @"searchUIdentifier";
     self.usersArr = [NSMutableArray array];
     NSString *str = [self.keyString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *strr = [NSString stringWithFormat:@"http://api.breadtrip.com/v2/search/?key=%@&start=0&count=20&data_type=",str];
-    NSLog(@"=========%@",strr);
     self.dataDcit = [NSMutableDictionary dictionary];
     
      [[getSearchData shareGetSearchData] getSearchDataWithUrl:strr Data:^(NSMutableDictionary *dataDict) {
@@ -120,7 +119,12 @@ static NSString *const searchUID = @"searchUIdentifier";
     if (indexPath.section == 0) {
         searchPTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:searchPID forIndexPath:indexPath];
         placeModel *model = self.placesArr[indexPath.row];
-        cell.imageView.image = [UIImage imageNamed:@"destination_64px_1088389_easyicon.net"];
+        cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:model.icon]]];
+        
+       // [cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.icon]];
+        
+          [cell.imageView setImageWithURL:[NSURL URLWithString:model.icon] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+    
         cell.titleLabel.text = model.name;
         NSString *str = model.country[@"name"];
         str = [str stringByAppendingString:model.name];
@@ -130,7 +134,9 @@ static NSString *const searchUID = @"searchUIdentifier";
     {
         searchTTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:searchTID forIndexPath:indexPath];
         tripModel *model = self.tripsArr[indexPath.row];
-        [cell.timgView yy_setImageWithURL:[NSURL URLWithString:model.cover_image] options:YYWebImageOptionSetImageWithFadeAnimation | YYWebImageOptionProgressiveBlur];
+        //[cell.timgView sd_setImageWithURL:[NSURL URLWithString:model.cover_image]];
+          [cell.imageView setImageWithURL:[NSURL URLWithString:model.cover_image] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+
         cell.ttitleLabel.text = model.name;
         NSString *ways = [model.waypoints stringValue];
         ways = [ways stringByAppendingString:@"足迹"];
@@ -145,7 +151,11 @@ static NSString *const searchUID = @"searchUIdentifier";
     {
         searchUTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:searchUID forIndexPath:indexPath];
         userModel *model = self.usersArr[indexPath.row];
-        [cell.uimgView yy_setImageWithURL:[NSURL URLWithString:model.avatar_m] options:YYWebImageOptionSetImageWithFadeAnimation | YYWebImageOptionProgressiveBlur];
+        //[cell.uimgView sd_setImageWithURL:[NSURL URLWithString:model.avatar_m]];
+        
+
+         [cell.uimgView setImageWithURL:[NSURL URLWithString:model.avatar_m] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+        
         cell.utitleLabel.text = model.name;
         cell.utitleLabel.text = model.name;
         cell.uaddressLabel.text = model.bio;
@@ -172,7 +182,7 @@ static NSString *const searchUID = @"searchUIdentifier";
 {
     if (section == 0) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, kWidth-20, 21)];
-        label.text = @"相关目的地";
+        label.text = @"相关地区";
         label.textAlignment = NSTextAlignmentCenter;
         return label;
     }else if (section == 1)
@@ -207,77 +217,6 @@ static NSString *const searchUID = @"searchUIdentifier";
 {
     [self.tableView endEditing:YES];
 }
--(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 0) {
-//        ElementModel *model = self.elementsArr[indexPath.section];
-//        NSArray *dataArr = model.data;
-//        DestinationCityModel *cityModel = [DestinationCityModel initWithDictionary:dataArr[indexPath.row]];
-//       
-//        
-        AllDestinationViewController *destinationVC = [[AllDestinationViewController alloc] init];
-        
-        placeModel *model = self.placesArr[indexPath.row];
-        NSString *str = [model.province[@"url"] substringFromIndex:8];
-        destinationVC.urlStr = str;
-        destinationVC.locationDict = model.province[@"location"];
-        
-        destinationVC.title =@"按热门排序";
-        UINavigationController *destinationNC = [[UINavigationController alloc] initWithRootViewController:destinationVC];
-        
-        [self presentViewController:destinationNC animated:YES completion:nil];
-    }
-    else if (indexPath.section == 1) {
-        SearchTripTableViewController * tourism = [SearchTripTableViewController new];
-        tripModel *model = self.tripsArr[indexPath.row];
-        tourism.Tourism_id = model.tid;
-        UINavigationController *tourismNC = [[UINavigationController alloc] initWithRootViewController:tourism];
-        //    [self.navigationController.navigationBar removeFromSuperview];
-        [self presentViewController:tourismNC animated:YES completion:nil];
-    }
-}
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

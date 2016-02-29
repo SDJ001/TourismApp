@@ -13,8 +13,8 @@
     _model = model;
 
   
-    
-   [self.imgView yy_setImageWithURL:[NSURL URLWithString:model.photo] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+    [self.imgView setImageWithURL:[NSURL URLWithString:model.photo] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+ 
     self.detailLabel.text = model.text;
 
 }

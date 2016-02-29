@@ -76,7 +76,9 @@ static NSString * const reuseIdentifier = @"Cell";
     DestinatioinCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     DestinationCityModel *model = self.dataArray[indexPath.row];
     //[cell.imgView sd_setImageWithURL:[NSURL URLWithString:model.cover]];
-    [cell.imgView yy_setImageWithURL:[NSURL URLWithString:model.cover] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionSetImageWithFadeAnimation];
+      [cell.imgView setImageWithURL:[NSURL URLWithString:model.cover] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+    
+
     cell.imgView.layer.cornerRadius = 6;
     cell.imgView.layer.masksToBounds = YES;
     cell.titleLabel.text = model.name;

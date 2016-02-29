@@ -13,7 +13,7 @@
 #import "SDImageCache.h"
 #import "SDCycleScrollView.h"
 #import "MJRefresh.h"
-#import "YYWebImage.h"
+//#import "YYWebImage.h"
 #import "FDSlideBar.h"
 #import <AMapNaviKit/AMapNaviKit.h>
 #import <AMapNaviKit/MAMapServices.h>
@@ -22,5 +22,7 @@
 #import <AMapSearchKit/AMapSearchKit.h>
 #import "Alert.h"
 #import "CWStarRateView.h"
-//#import "MapViewController.h"
+#import "MBProgressHUD.h"
+#import "YYPhotoGroupView.h"
+#import "YYKit.h"
 #endif

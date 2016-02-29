@@ -175,8 +175,8 @@ static NSString * const reusedNearByTableCell = @"reusedNearByTableCell";
     NearbyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reusedNearByTableCell forIndexPath:indexPath];
 
     NearByModel * model = [_dataDict objectForKey:_keyArray[indexPath.row]];
+   [cell.imgView setImageWithURL:[NSURL URLWithString:model.cover] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
 
-    [cell.imgView yy_setImageWithURL:[NSURL URLWithString:model.cover] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
     cell.nameLabel.text = model.name;
     cell.descripLabel.text = model.d_Description;
     NSUInteger  meter =  model.scale*111000;
