@@ -256,7 +256,6 @@ static NSString *const reuseIdentifier1 = @"cell1";
         }
     }
     
-//     NSLog(@"================%@,%@",searchBar.text,self.searchArray);
      NSArray *arra = [NSArray arrayWithArray:self.searchArray];
      self.searchArray = [NSMutableArray arrayWithArray:arra];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -270,6 +269,7 @@ static NSString *const reuseIdentifier1 = @"cell1";
     [self presentViewController:unc animated:YES completion:nil];
     
 }
+
 
 -(void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {

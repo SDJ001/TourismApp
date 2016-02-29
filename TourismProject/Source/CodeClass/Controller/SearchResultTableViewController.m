@@ -49,8 +49,6 @@ static NSString *const searchUID = @"searchUIdentifier";
     [self.tableView registerNib:[UINib nibWithNibName:@"searchPTableViewCell" bundle:nil] forCellReuseIdentifier:searchPID];
     [self.tableView registerNib:[UINib nibWithNibName:@"searchTTableViewCell" bundle:nil] forCellReuseIdentifier:searchTID];
     [self.tableView registerNib:[UINib nibWithNibName:@"searchUTableViewCell" bundle:nil] forCellReuseIdentifier:searchUID];
-    
-
 }
 
 -(void) getAllData
