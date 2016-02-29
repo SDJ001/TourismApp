@@ -43,9 +43,9 @@
   
     self.values = [NSMutableArray arrayWithObjects:all,secencey,hotel,restaurant,experience,mall, nil];
     [self.currentViewController setValue:all forKey:@"category"];
+    
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"return_30.521739130435px_1157313_easyicon.net"] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"map_27.428571428571px_1164572_easyicon.net"] style:UIBarButtonItemStylePlain target:self action:@selector(mapAction)];
-    // Do any additional setup after loading the view.
+
 }
 
 -(void) backAction
@@ -53,10 +53,6 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void) mapAction
-{
-    
-}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

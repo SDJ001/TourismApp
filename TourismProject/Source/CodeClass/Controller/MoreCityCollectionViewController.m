@@ -22,9 +22,7 @@ static NSString * const reuseIdentifier = @"Cell";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
     self.navigationItem.title = self.countryStr;
     NSString *str = [NSString stringWithFormat:@"http://api.breadtrip.com/destination/index_places/%ld/",self.urlIndex];
-    self.collectionView.dataSource = self;
-    self.collectionView.delegate = self;
-    
+    self.collectionView.backgroundColor = [UIColor whiteColor];
     self.dataArray = [NSMutableArray array];
     if (self.dataArray.count > 0) {
          [self.collectionView reloadData];

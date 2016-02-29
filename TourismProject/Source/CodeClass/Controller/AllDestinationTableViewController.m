@@ -7,7 +7,7 @@
 //
 
 #import "AllDestinationTableViewController.h"
-
+#import "NearByDetailViewController.h"
 @interface AllDestinationTableViewController ()
 @property(nonatomic,strong) CWStarRateView *starRateView;
 @property(nonatomic,strong) NSMutableArray *dataArray;
@@ -20,7 +20,9 @@ NSInteger numbers = 1;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.tableView registerNib:[UINib nibWithNibName:@"AllDestinationTableViewCell" bundle:nil] forCellReuseIdentifier:tableViewID];
+     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self getdata];
+   
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self getNewData];
     }];
@@ -32,7 +34,7 @@ NSInteger numbers = 1;
 
 -(void)viewWillAppear:(BOOL)animated
 {
-//    [self getdata];
+  //[self getdata];
   
 }
 -(void) getdata
@@ -45,6 +47,7 @@ NSInteger numbers = 1;
         [[getMoreCityTools shareGetMoreCityTools]getAllCityWithUrl:self.category CityData:^(NSMutableArray *AllCity) {
             self.dataArray = AllCity;
             dispatch_async(dispatch_get_main_queue(), ^{
+              self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
                 [self.tableView reloadData];
             });
         }];
@@ -57,6 +60,7 @@ NSInteger numbers = 1;
     [[getMoreCityTools shareGetMoreCityTools]getAllCityWithUrl:self.category CityData:^(NSMutableArray *AllCity) {
         self.dataArray = AllCity;
         dispatch_async(dispatch_get_main_queue(), ^{
+            self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
             [self.tableView reloadData];
             [self.tableView.mj_header endRefreshing];
         });
@@ -73,6 +77,7 @@ NSInteger numbers = 1;
     [[getMoreCityTools shareGetMoreCityTools] getAllCityWithUrl:str CityData:^(NSMutableArray *AllCity) {
         self.moreData = AllCity;
         dispatch_async(dispatch_get_main_queue(), ^{
+            self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
             [self.dataArray addObjectsFromArray:self.moreData];
             [self.tableView reloadData];
             [self.tableView.mj_footer endRefreshing];
@@ -120,11 +125,17 @@ NSInteger numbers = 1;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
   
+    NearByModel * model = self.dataArray[indexPath.row];
+    NearByDetailViewController * detail = [[NearByDetailViewController alloc]init];
+    detail.model = model;
+    [self.navigationController pushViewController:detail animated:YES];
+   
 }
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return  150;
 }
+
 
 /*
 // Override to support conditional editing of the table view.

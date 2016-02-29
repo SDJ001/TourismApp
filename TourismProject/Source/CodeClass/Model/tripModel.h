@@ -16,7 +16,7 @@
 @property(strong,nonatomic) NSString *date_added;
 @property(strong,nonatomic) NSString *date_complete;
 @property(strong,nonatomic) NSNumber *day_count;
-@property(strong,nonatomic) NSString *tid;
+@property(strong,nonatomic) NSNumber *tid;
 @property(strong,nonatomic) NSString *last_modified;
 @property(strong,nonatomic) NSNumber *liked_count;
 @property(strong,nonatomic) NSString *mileage;

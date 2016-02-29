@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+//#import "NearByModel.h"
 @interface NearByDetailViewController : UIViewController
+
 @property(nonatomic,strong)NearByModel * model;
 @property(nonatomic,strong)NSMutableDictionary * dataDict;
 @end
