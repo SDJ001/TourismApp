@@ -14,6 +14,7 @@
 @property(nonatomic,strong) SDCycleScrollView   * cycleScrollView;
 @property(nonatomic,strong) NSMutableArray      * keyAarr;
 @property(nonatomic,strong) NSMutableDictionary * next_starDcit;
+@property(nonatomic,strong) MBProgressHUD       * hud;//加载弹窗
 
 
 @end
@@ -47,6 +48,12 @@ static NSString * const reuseHeaderViewIndentifier = @"reuseHeaderViewIndentifie
     }else{
         self.collectionView.mj_footer.hidden = NO;
     }
+}
+//加载弹窗
+-(MBProgressHUD *)hud{
+    if (!_hud) {
+        _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    }return _hud;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -134,6 +141,7 @@ static NSString * const reuseHeaderViewIndentifier = @"reuseHeaderViewIndentifie
 }
 //网络恢复以后判断页面是否有数据,如果没有那么开始下载
 -(void)willNetReachabilityToGetData{
+
     if ([self.dataDict count]==0) {
         if ([self.collectionView.mj_header isRefreshing]) {
             [self.collectionView.mj_header endRefreshing];
@@ -151,9 +159,12 @@ static NSString * const reuseHeaderViewIndentifier = @"reuseHeaderViewIndentifie
 }
 //下载数据
 - (void)updata{
-    
+    if ([self.dataDict count] == 0) {
+        self.hud.mode = MBProgressHUDModeIndeterminate;
+        self.hud.backgroundColor = [UIColor whiteColor];
+    }
     [self.tool getDataSourceByUrlString:kUrl passData:^(NSDictionary *dict,NSError * error) {
-        NSLog(@"error=========%@ %@",error.domain,[error.userInfo objectForKey:NSLocalizedDescriptionKey]);
+       
         if (error!=NULL) {
             [self.collectionView.mj_header endRefreshing];
             [self.collectionView.mj_footer endRefreshing];
@@ -167,6 +178,8 @@ static NSString * const reuseHeaderViewIndentifier = @"reuseHeaderViewIndentifie
             }];
             [alert addAction:cancle];
             [alert addAction:setting];
+            
+            [_hud hideAnimated:YES];
             [self presentViewController:alert animated:YES completion:nil];
             
         }else{
@@ -213,16 +226,11 @@ static NSString * const reuseHeaderViewIndentifier = @"reuseHeaderViewIndentifie
             [self.dataDict setObject:travelArr forKey:@"travel"];
             [self.collectionView reloadData];
             [_next_starDcit setValue:dataDict[@"next_start"] forKey:@"nextStart"];
+            self.hud.hidden = YES;
             [self.collectionView.mj_header endRefreshing];
             self.collectionView.mj_footer.hidden = NO;
-
-            
-            
-            
-            
-            
         }
-           }];
+    }];
  
 }
 //上拉加载更多数据
@@ -291,9 +299,11 @@ static NSString * const reuseHeaderViewIndentifier = @"reuseHeaderViewIndentifie
 
         cell.userLabel.text = model.user[@"name"];
 
+
+         [cell.ImgView setImageWithURL:[NSURL URLWithString:model.index_cover] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
         
-        [cell.ImgView yy_setImageWithURL:[NSURL URLWithString:model.index_cover] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
-        [cell.userImage yy_setImageWithURL:[NSURL URLWithString:model.user[@"avatar_s"]] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+        [cell.userImage setImageWithURL:[NSURL URLWithString:model.user[@"avatar_s"]] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+      
         
 
         return cell;
@@ -310,14 +320,20 @@ static NSString * const reuseHeaderViewIndentifier = @"reuseHeaderViewIndentifie
             cell.viewCount.text = [NSString stringWithFormat:@"%@次浏览",model.view_count];
             cell.dayCount.text = [NSString stringWithFormat:@"%@天",model.day_count];
             cell.userName.text = model.user[@"name"];
-            [cell.userImgView yy_setImageWithURL:[NSURL URLWithString:model.user[@"avatar_l"]] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+            
+            [cell.userImgView setImageWithURL:[NSURL URLWithString:model.user[@"avatar_l"]] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+
+            
+
+            
         }else{
               ProductModel * model = [[self.dataDict objectForKey:self.keyAarr[indexPath.section]] objectAtIndex:indexPath.item];
             url = [NSURL URLWithString:model.cover];
         }
 
+      [cell.imgView setImageWithURL:url options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+        
 
-        [cell.imgView yy_setImageWithURL:url options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
         return cell;
     }
 

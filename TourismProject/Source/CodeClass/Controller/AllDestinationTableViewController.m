@@ -101,7 +101,9 @@ NSInteger numbers = 1;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     AllDestinationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:tableViewID forIndexPath:indexPath];
     NearByModel *model = self.dataArray[indexPath.row];
-    [cell.imgView yy_setImageWithURL:[NSURL URLWithString:model.cover] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionSetImageWithFadeAnimation ];
+    [cell.imgView setImageWithURL:[NSURL URLWithString:model.cover] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+
+
     cell.cityLabel.text = model.name;
     
     self.starRateView = [[CWStarRateView alloc] initWithFrame:CGRectMake(0, 0, 100, 18) numberOfStars:5];

@@ -13,6 +13,7 @@
 @property(nonatomic,strong)NSMutableArray * dataArr;
 @property(nonatomic,strong)NSMutableDictionary * dataDict;
 @property(nonatomic,strong)NSMutableArray* keyArray;
+@property(nonatomic,strong)MBProgressHUD * hud;
 @end
 NSInteger indexStart = 1;
 @implementation StoryAllCollectionViewController
@@ -40,6 +41,11 @@ static NSString * const reuseIdentifier = @"Cell";
         }
     });return story;
 }
+-(MBProgressHUD *)hud{
+    if (!_hud) {
+        _hud = [MBProgressHUD new];
+    }return _hud;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -57,7 +63,11 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 -(void)updataByUrlString:(NSString * )urlString{
+    if ([self.dataDict count]==0) {
+        self.hud.mode = MBProgressHUDModeAnnularDeterminate;
+    }
     [self.tool getDataSourceByUrlString:urlString passData:^(NSDictionary *dict,NSError*error) {
+     
         NSDictionary * dataDict = dict[@"data"];
         NSArray * dataArray = dataDict[@"hot_spot_list"];
         
@@ -69,7 +79,7 @@ static NSString * const reuseIdentifier = @"Cell";
                 [self.dataArr insertObject:model.text atIndex:0];
             }
         }
- 
+         self.hud.hidden=YES;
          [self.collectionView reloadData];
          [self.collectionView.mj_header endRefreshing];
     }];
@@ -123,12 +133,12 @@ static NSString * const reuseIdentifier = @"Cell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     RecommendCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     RecommendModel * model = [self.dataDict objectForKey:self.dataArr[indexPath.item]];
+        [cell.ImgView  setImageWithURL:[NSURL URLWithString:model.index_cover] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
   
-    [cell.ImgView yy_setImageWithURL:[NSURL URLWithString:model.index_cover]options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
     
     cell.titleLabel.text = model.index_title;
+        [cell.userImage  setImageWithURL:[NSURL URLWithString:model.user[@"avatar_s"]] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
   
-    [cell.userImage yy_setImageWithURL:[NSURL URLWithString:model.user[@"avatar_s"]]options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
     
     
     cell.userLabel.text = model.user[@"name"];

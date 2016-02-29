@@ -88,8 +88,9 @@
     _imgView.clipsToBounds = YES;
     
     _imgView.contentMode = UIViewContentModeScaleAspectFill;
+        [_imgView setImageWithURL:[NSURL URLWithString:_model.cover] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
     
-    [_imgView yy_setImageWithURL:[NSURL URLWithString:_model.cover] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+
     
     [customView addSubview:_imgView];
     

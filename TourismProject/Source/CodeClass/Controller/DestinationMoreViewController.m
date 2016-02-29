@@ -41,7 +41,9 @@ static NSString *const collectionHeader2ID = @"collectionHeader2Reuseidentifier"
     [[getDestinationTools shareGetDestinationTools] getWithUrl:urlStr DestAdd:^(NSMutableDictionary *dataDict, BOOL success) {
         self.dataDic = dataDict;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [imageView yy_setImageWithURL:[NSURL URLWithString:self.dataDic[@"photo"]] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionSetImageWithFadeAnimation];
+          
+              [imageView   setImageWithURL:[NSURL URLWithString:self.dataDic[@"photo"]] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+            
             [self.collectioView reloadData];
         });
     }];
@@ -172,7 +174,9 @@ static NSString *const collectionHeader2ID = @"collectionHeader2Reuseidentifier"
  {
      DestinatioinCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:collectionReuseID forIndexPath:indexPath];
       NearByModel *model = self.dataArr[indexPath.row];
-     [cell.imgView yy_setImageWithURL:[NSURL URLWithString:model.cover] options:YYWebImageOptionProgressiveBlur | YYWebImageOptionSetImageWithFadeAnimation ];
+        [cell.imgView  setImageWithURL:[NSURL URLWithString:model.cover] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+     
+  
      cell.titleLabel.text = model.name;
      
      return cell;

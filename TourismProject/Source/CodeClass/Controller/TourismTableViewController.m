@@ -12,6 +12,7 @@
 @property(nonatomic,strong)DataBaseTool * tool;
 @property(nonatomic,strong)NSMutableDictionary * dataDict;
 @property(nonatomic,strong)NSMutableArray * keyArray;
+@property(nonatomic,strong)MBProgressHUD * hud;
 @end
 static NSString * const tourismDetailReuseIdentifier = @"tourismDetailReuseIdentifier";
 @implementation TourismTableViewController
@@ -20,6 +21,13 @@ static NSString * const tourismDetailReuseIdentifier = @"tourismDetailReuseIdent
         _tool = [DataBaseTool shareDataBaseTool];
     }return _tool;
 }
+-(MBProgressHUD *)hud{
+    if (!_hud) {
+        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
+    }return _hud;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     UINib * nib = [UINib nibWithNibName:@"TourismTableViewCell" bundle:nil];
@@ -30,9 +38,16 @@ static NSString * const tourismDetailReuseIdentifier = @"tourismDetailReuseIdent
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.estimatedRowHeight = 150;
     self.tableView.rowHeight =UITableViewAutomaticDimension;
+    if ([self performSelector:@selector(setEdgesForExtendedLayout:)]) {
+        self.edgesForExtendedLayout = UIRectEdgeBottom;
+    }
 
 }
 -(void)updata{
+    if ([self.dataDict count]==0) {
+        self.hud.mode = MBProgressHUDModeIndeterminate;
+        self.hud.backgroundView.style = MBProgressHUDBackgroundStyleSolidColor;
+    }
     [self.tool getdataSourceByTourism_id:self.Tourism_id passData:^(NSDictionary *dict,NSError*error) {
         NSArray * array = dict[@"days"];
         NSInteger i = 0;
@@ -46,7 +61,8 @@ static NSString * const tourismDetailReuseIdentifier = @"tourismDetailReuseIdent
         
             [_keyArray addObject:[NSString stringWithFormat:@"%ld",i]];
                 i++;
-        }[self.tableView reloadData];
+        }self.hud.hidden=YES;
+        [self.tableView reloadData];
     }];
 }
 - (void)didReceiveMemoryWarning {
@@ -65,7 +81,7 @@ static NSString * const tourismDetailReuseIdentifier = @"tourismDetailReuseIdent
        
         return  rect.size.height+(kWidth-20)*scale+20;
     }
-    return rect.size.height+30;
+    return rect.size.height+20;
    
 }
 #pragma mark - Table view data source
@@ -86,10 +102,25 @@ static NSString * const tourismDetailReuseIdentifier = @"tourismDetailReuseIdent
     TourismModel * model = [_dataDict objectForKey:_keyArray[indexPath.section]][indexPath.row];
     ;
     cell.model = model;
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    UIView *fromView = nil;
+    NSMutableArray *items = [NSMutableArray new];
+    UIView *imgView = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    TourismModel * model = [_dataDict objectForKey:_keyArray[indexPath.section]][indexPath.row];
+    
+    YYPhotoGroupItem *item = [YYPhotoGroupItem new];
+    item.thumbView = imgView;
+    item.largeImageURL =[NSURL URLWithString:model.photo_1600];
+    [items addObject:item];
+    YYPhotoGroupView *v = [[YYPhotoGroupView alloc] initWithGroupItems:items];
+    
+    [v presentFromImageView:fromView toContainer:self.navigationController.view animated:YES completion:nil];
 
+}
 
 
 @end

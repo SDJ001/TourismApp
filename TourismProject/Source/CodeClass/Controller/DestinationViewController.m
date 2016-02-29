@@ -219,18 +219,18 @@ static NSString *const destinationReuseID = @"destinationCollectionReuseIdentifi
 
 -(UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-        DestinatioinCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:destinationReuseID forIndexPath:indexPath];
+    DestinatioinCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:destinationReuseID forIndexPath:indexPath];
     ElementModel *model = self.elementsArr[indexPath.section];
     NSArray *dataArr = model.data;
     DestinationCityModel *cityModel = [DestinationCityModel initWithDictionary:dataArr[indexPath.row]];
-    //[cell.imgView sd_setImageWithURL:[NSURL URLWithString:cityModel.cover]];
-    [cell.imgView yy_setImageWithURL:[NSURL URLWithString:cityModel.cover] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+    [cell.imgView   setImageWithURL:[NSURL URLWithString:cityModel.cover] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
+    
     cell.imgView.layer.cornerRadius = 6;
     cell.imgView.layer.masksToBounds = YES;
     
     cell.titleLabel.text = cityModel.name;
-     return cell;
-
+    return cell;
+    
 }
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
