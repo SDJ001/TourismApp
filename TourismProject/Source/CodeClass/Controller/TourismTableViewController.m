@@ -46,7 +46,8 @@ static NSString * const tourismDetailReuseIdentifier = @"tourismDetailReuseIdent
 -(void)updata{
     if ([self.dataDict count]==0) {
         self.hud.mode = MBProgressHUDModeIndeterminate;
-        self.hud.backgroundView.style = MBProgressHUDBackgroundStyleSolidColor;
+        self.hud.backgroundColor = [UIColor whiteColor];
+        self.hud.backgroundView.style = MBProgressHUDBackgroundStyleBlur;
     }
     [self.tool getdataSourceByTourism_id:self.Tourism_id passData:^(NSDictionary *dict,NSError*error) {
         NSArray * array = dict[@"days"];

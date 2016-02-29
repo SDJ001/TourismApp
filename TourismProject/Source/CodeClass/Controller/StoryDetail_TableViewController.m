@@ -14,6 +14,7 @@
 @property(nonatomic,strong)NSDictionary * scaleDict;
 @property(nonatomic,strong)UICollectionViewFlowLayout * flowLayout;
 @property(nonatomic,strong)NSMutableDictionary * footerDict;
+@property(nonatomic,strong)MBProgressHUD * hud;
 @end
 static NSString * const reuseStoryDetailIdentifier = @"reuseStoryDetailIdentifier";
 @implementation StoryDetail_TableViewController
@@ -27,8 +28,18 @@ static NSString * const reuseStoryDetailIdentifier = @"reuseStoryDetailIdentifie
         _tool = [DataBaseTool shareDataBaseTool];
     }return _tool;
 }
+-(MBProgressHUD *)hud{
+    if (!_hud) {
+        _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    }return _hud;
+}
 // !!!:下载数据
 - (void)updata{
+    if ([self.dataDict count]==0) {
+        self.hud.mode = MBProgressHUDModeIndeterminate;
+        self.hud.backgroundView.style = MBProgressHUDBackgroundStyleBlur;
+        
+    }
     NSMutableArray * detailArr = [NSMutableArray new];
     [self.tool getdataSourceBySpot_id:self.spot_id passData:^(NSDictionary *dict,NSError * error) {
         
@@ -51,6 +62,7 @@ static NSString * const reuseStoryDetailIdentifier = @"reuseStoryDetailIdentifie
         
         
         _flowLayout.headerReferenceSize = CGSizeMake(10, 10);
+        self.hud.hidden=YES;
         [self.tableView reloadData];
         
     }];
