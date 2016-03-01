@@ -12,4 +12,5 @@ typedef void (^PassSearchData2) (NSMutableArray *dataAr);
 @interface SearchDataTools : NSObject
 +(instancetype) sharePassSearchData;
 -(void) getSearchDomainData:(PassSearchData) passDomainData;
--(void) getSearchOverseaData:(PassSearchData2)passOverseaData;@end
+-(void) getSearchOverseaData:(PassSearchData2)passOverseaData;
+@end

@@ -215,11 +215,6 @@ static NSString *const searchUID = @"searchUIdentifier";
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        //        ElementModel *model = self.elementsArr[indexPath.section];
-        //        NSArray *dataArr = model.data;
-        //        DestinationCityModel *cityModel = [DestinationCityModel initWithDictionary:dataArr[indexPath.row]];
-        //
-        //
         AllDestinationViewController *destinationVC = [[AllDestinationViewController alloc] init];
         
         placeModel *model = self.placesArr[indexPath.row];
@@ -237,7 +232,6 @@ static NSString *const searchUID = @"searchUIdentifier";
         tripModel *model = self.tripsArr[indexPath.row];
         tourism.Tourism_id = model.tid;
         UINavigationController *tourismNC = [[UINavigationController alloc] initWithRootViewController:tourism];
-        //    [self.navigationController.navigationBar removeFromSuperview];
         [self presentViewController:tourismNC animated:YES completion:nil];
     }
 }

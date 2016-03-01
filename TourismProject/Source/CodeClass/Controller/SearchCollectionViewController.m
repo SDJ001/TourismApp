@@ -39,6 +39,8 @@ static NSString *const reuseIdentifier1 = @"cell1";
 - (void)viewDidLoad {
     [super viewDidLoad];
    
+    [self loadData];
+    
     self.navigationItem.hidesBackButton  = YES;
     self.navigationController.navigationBar.tintColor = [UIColor redColor];
     
@@ -46,10 +48,6 @@ static NSString *const reuseIdentifier1 = @"cell1";
     self.searchBar.delegate = self;
     self.searchBar.placeholder= @"搜索";
     [_searchBar setBackgroundColor:[UIColor clearColor]];
-    
-    [self loadSearchController];
-
-    
     _searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
     _searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
     [[[_searchBar.subviews objectAtIndex:0].subviews objectAtIndex:0] removeFromSuperview];
@@ -63,12 +61,10 @@ static NSString *const reuseIdentifier1 = @"cell1";
     [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:hearderReuseID3];
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"LabelCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"labelCollection"];
-
-    NSLog(@"%s",__FUNCTION__);
     
     self.collectionView.backgroundColor = [UIColor whiteColor];
     
-    [self loadData];
+     [self loadSearchController];
     
     self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         //进入刷新转态后会自动调用这个Block
@@ -78,9 +74,7 @@ static NSString *const reuseIdentifier1 = @"cell1";
 
 -(void)updata{
     [self.collectionView reloadData];
-    dispatch_after(2, dispatch_get_main_queue(), ^{
-        [self.collectionView.mj_header endRefreshing];
-    });
+    [self.collectionView.mj_header endRefreshing];
 }
 
 -(void) viewWillAppear:(BOOL)animated
@@ -106,22 +100,13 @@ static NSString *const reuseIdentifier1 = @"cell1";
    
     [[SearchDataTools sharePassSearchData] getSearchOverseaData:^(NSMutableArray *dataAr) {
         self.overSeaArray = dataAr;
-        dispatch_async(dispatch_get_main_queue(), ^{
-//            NSLog(@"-------%@",self.overSeaArray);
-            [self.collectionView reloadData];
-        });
+        [self.collectionView reloadData];
     }];
     
     [[SearchDataTools sharePassSearchData] getSearchDomainData:^(NSMutableArray *dataArr) {
         self.domainArray = dataArr;
-        dispatch_async(dispatch_get_main_queue(), ^{
-//            NSLog(@"+++++%@",self.domainArray);
-            [self.collectionView reloadData];
-        });
-
+        [self.collectionView reloadData];
     }];
-    
-    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.searchArray = [NSMutableArray arrayWithArray:[defaults objectForKey:@"lishi"]];
 }
@@ -170,14 +155,12 @@ static NSString *const reuseIdentifier1 = @"cell1";
     }
     else if (indexPath.section == 1)
     {
-        
             DestinationCityModel *model = self.domainArray[indexPath.row];
             cell.CityLabel.text = model.name;
             return cell;
         }
         else
         {
-           
             DestinationCityModel *model = self.overSeaArray[indexPath.row];
             cell.CityLabel.text = model.name;
             return cell;
@@ -189,12 +172,12 @@ static NSString *const reuseIdentifier1 = @"cell1";
 {
     
     if (indexPath.section == 0) {
-        UICollectionReusableView *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:hearderReuseID3 forIndexPath:indexPath];
+        UICollectionReusableView *header1 = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:hearderReuseID3 forIndexPath:indexPath];
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, kWidth-20, 21)];
         label.text = @"搜索历史";
         label.textAlignment = NSTextAlignmentCenter;
-        [header addSubview:label];
-        return header;
+        [header1 addSubview:label];
+        return header1;
     }
    else if (indexPath.section == 1)
    {
@@ -207,12 +190,12 @@ static NSString *const reuseIdentifier1 = @"cell1";
     }
   else if (indexPath.section == 2)
     {
-        UICollectionReusableView *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:hearderReuseID2 forIndexPath:indexPath];
+        UICollectionReusableView *header2 = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:hearderReuseID2 forIndexPath:indexPath];
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, kWidth-20, 21)];
         label.text = @"国内热门目的地";
         label.textAlignment = NSTextAlignmentCenter;
-        [header addSubview:label];
-        return header;
+        [header2 addSubview:label];
+        return header2;
     }
     return nil;
     

@@ -23,8 +23,6 @@
 
 -(void) getSearchOverseaData:(PassSearchData2)passOverseaData
 {
-    dispatch_queue_t global = dispatch_get_global_queue(0, 0);
-    dispatch_async(global, ^{
         NSMutableArray *tempAr = [NSMutableArray array];
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         AFURLSessionManager *manager =[[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
@@ -44,14 +42,11 @@
             }
         }];
         [dataTask1 resume];
-    });
 }
 
 
 -(void)getSearchDomainData:(PassSearchData)passDomainData
 {
-    dispatch_queue_t global = dispatch_get_global_queue(0, 0);
-    dispatch_async(global, ^{
         NSMutableArray *tempArr = [NSMutableArray array];
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
@@ -71,6 +66,5 @@
             }
         }];
         [dataTask resume];
-    });
 }
 @end
