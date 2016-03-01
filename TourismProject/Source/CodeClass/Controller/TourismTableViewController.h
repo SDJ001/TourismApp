@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface TourismTableViewController : UITableViewController
-@property(nonatomic,strong)NSNumber * Tourism_id;
+@property (nonatomic ,strong) NSNumber * Tourism_id;
+@property (strong, nonatomic) NSString *name;
 @end

@@ -16,6 +16,7 @@
 @property(nonatomic,strong)UIImageView * imgView;
 @property(nonatomic,strong)NSMutableArray * keyArray;
 @property(nonatomic,strong)NSMutableArray * valueArray;
+@property(nonatomic,strong) CWStarRateView *starRateView;
 @end
 
 @implementation NearByDetailViewController

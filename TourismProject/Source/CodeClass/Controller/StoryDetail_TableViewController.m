@@ -30,8 +30,15 @@ static NSString * const reuseStoryDetailIdentifier = @"reuseStoryDetailIdentifie
 }
 -(MBProgressHUD *)hud{
     if (!_hud) {
-        _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     }return _hud;
+}
+-(void)viewWillAppear:(BOOL)animated{
+    self.navigationItem.title = self.name;
+
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    self.navigationItem.title = NULL;
 }
 // !!!:下载数据
 - (void)updata{
@@ -70,6 +77,10 @@ static NSString * const reuseStoryDetailIdentifier = @"reuseStoryDetailIdentifie
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if ([self performSelector:@selector(setEdgesForExtendedLayout:)]) {
+        self.edgesForExtendedLayout = UIRectEdgeBottom;
+    }
+    
     UINib * nib = [UINib nibWithNibName:@"StoryDetailTableViewCell" bundle:nil];
     [self updata];
     [self.tableView registerNib:nib forCellReuseIdentifier:reuseStoryDetailIdentifier];
@@ -90,15 +101,15 @@ static NSString * const reuseStoryDetailIdentifier = @"reuseStoryDetailIdentifie
     
     
     CGFloat scale  = [model.photo_width floatValue]/[model.photo_height floatValue];
-    CGRect  rect = [model.text boundingRectWithSize:CGSizeMake(kWidth-2*kGap, 10000) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17]} context:nil];
+    CGRect  rect = [model.text boundingRectWithSize:CGSizeMake(kWidth-kGap, 10000) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17]} context:nil];
     
     
     if (!isnan(scale)) {
         
-        return (kWidth-kGap)/scale+rect.size.height;
+        return (kWidth-kGap)/scale+rect.size.height+kGap/2;
         
     }
-    return rect.size.height+30;
+    return rect.size.height;
     
 }
 #pragma mark - Table view data source
@@ -119,8 +130,25 @@ static NSString * const reuseStoryDetailIdentifier = @"reuseStoryDetailIdentifie
     StoryDetailModel * model = [self.dataDict objectForKey:@"detail_list"][indexPath.item];
    
     cell.model = model;
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    UIView *fromView = nil;
+    NSMutableArray *items = [NSMutableArray new];
+    UIView *imgView = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+     StoryDetailModel * model = [self.dataDict objectForKey:@"detail_list"][indexPath.item];
+    
+    YYPhotoGroupItem *item = [YYPhotoGroupItem new];
+    item.thumbView = imgView;
+    item.largeImageURL =[NSURL URLWithString:model.photo_1600];
+    [items addObject:item];
+    YYPhotoGroupView *v = [[YYPhotoGroupView alloc] initWithGroupItems:items];
+    
+    [v presentFromImageView:fromView toContainer:self.navigationController.view animated:YES completion:nil];
+    
+}
+
 
 @end

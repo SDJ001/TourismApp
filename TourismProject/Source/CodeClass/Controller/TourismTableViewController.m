@@ -27,7 +27,15 @@ static NSString * const tourismDetailReuseIdentifier = @"tourismDetailReuseIdent
         
     }return _hud;
 }
+-(void)viewWillAppear:(BOOL)animated{
 
+    self.navigationItem.title  =self.name;
+  
+   
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    self.navigationController.title = NULL;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     UINib * nib = [UINib nibWithNibName:@"TourismTableViewCell" bundle:nil];
