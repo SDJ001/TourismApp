@@ -52,7 +52,7 @@ static NSString * const reuseHeaderViewIndentifier = @"reuseHeaderViewIndentifie
 //加载弹窗
 -(MBProgressHUD *)hud{
     if (!_hud) {
-        _hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     }return _hud;
 }
 - (void)viewDidLoad {
@@ -375,7 +375,7 @@ static NSString * const reuseHeaderViewIndentifier = @"reuseHeaderViewIndentifie
 -(UICollectionReusableView*)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
         UICollectionReusableView * headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseHeaderViewIndentifier forIndexPath:indexPath];
-        
+        self.cycleScrollView.delegate = self;
         [headerView addSubview:self.cycleScrollView];
         
         NSMutableArray * array = [NSMutableArray new];
@@ -404,6 +404,13 @@ static NSString * const reuseHeaderViewIndentifier = @"reuseHeaderViewIndentifie
     return nil;
 
 }
+/** 点击图片回调 */
+- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
+    NSLog(@"%ld",(long)index);
+    ProductWebView * webView = [ProductWebView new];
+    webView.urlString = ((carouselModel *)_dataDict[@"carousel"][index]).html_url;
+    [self.navigationController pushViewController:webView animated:YES];
+}
 
 -(void)toStoryAll:(UIButton*)sender{
     UICollectionViewFlowLayout * flowLayout = [[UICollectionViewFlowLayout alloc]init];
@@ -422,6 +429,7 @@ static NSString * const reuseHeaderViewIndentifier = @"reuseHeaderViewIndentifie
         
         RecommendModel *  model = [[self.dataDict objectForKey:self.keyAarr[indexPath.section]] objectAtIndex:indexPath.item];
         detail.spot_id = model.spot_id;
+        detail.name = model.index_title;
         [self.navigationController pushViewController:detail animated:YES];
         
     }else if (indexPath.section ==2){
@@ -432,7 +440,8 @@ static NSString * const reuseHeaderViewIndentifier = @"reuseHeaderViewIndentifie
             TourismTableViewController * tourism = [TourismTableViewController new];
             
             tourism.Tourism_id = ((travelNoteModel*)obj).d_Id;
-            
+            tourism.name = ((travelNoteModel*)obj).name;
+
             [self.navigationController pushViewController:tourism animated:YES];
         }else{
             ProductWebView * webView = [ProductWebView new];

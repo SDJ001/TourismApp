@@ -35,11 +35,11 @@
     CGFloat scale  = [self.model.photo_width floatValue]/[self.model.photo_height floatValue];
     
     if (!isnan(scale)) {
-        self.imgView.frame = CGRectMake(kGap, 0, kWidth-2*kGap, (kWidth-2*kGap)/scale);
+        self.imgView.frame = CGRectMake(kGap/2, 0, kWidth-kGap, (kWidth-kGap)/scale);
     }
     
-    CGRect  rect = [self.model.text boundingRectWithSize:CGSizeMake(kWidth-2*kGap, 10000) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17]} context:nil];
-    self.descripLabel.frame= CGRectMake(kGap, CGRectGetMaxY(self.imgView.frame), kWidth-2*kGap, rect.size.height);
+    CGRect  rect = [self.model.text boundingRectWithSize:CGSizeMake(kWidth-kGap, 10000) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17]} context:nil];
+    self.descripLabel.frame= CGRectMake(kGap, CGRectGetMaxY(self.imgView.frame)+kGap/4, kWidth-2*kGap, rect.size.height);
     
 }
 @end

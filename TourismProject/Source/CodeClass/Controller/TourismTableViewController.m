@@ -27,7 +27,15 @@ static NSString * const tourismDetailReuseIdentifier = @"tourismDetailReuseIdent
         
     }return _hud;
 }
+-(void)viewWillAppear:(BOOL)animated{
 
+    self.navigationItem.title  =self.name;
+  
+   
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    self.navigationController.title = NULL;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     UINib * nib = [UINib nibWithNibName:@"TourismTableViewCell" bundle:nil];
@@ -46,7 +54,8 @@ static NSString * const tourismDetailReuseIdentifier = @"tourismDetailReuseIdent
 -(void)updata{
     if ([self.dataDict count]==0) {
         self.hud.mode = MBProgressHUDModeIndeterminate;
-        self.hud.backgroundView.style = MBProgressHUDBackgroundStyleSolidColor;
+        self.hud.backgroundColor = [UIColor whiteColor];
+        self.hud.backgroundView.style = MBProgressHUDBackgroundStyleBlur;
     }
     [self.tool getdataSourceByTourism_id:self.Tourism_id passData:^(NSDictionary *dict,NSError*error) {
         NSArray * array = dict[@"days"];

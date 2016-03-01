@@ -134,13 +134,10 @@ static NSString * const reuseIdentifier = @"Cell";
     RecommendCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     RecommendModel * model = [self.dataDict objectForKey:self.dataArr[indexPath.item]];
         [cell.ImgView  setImageWithURL:[NSURL URLWithString:model.index_cover] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
-  
     
     cell.titleLabel.text = model.index_title;
         [cell.userImage  setImageWithURL:[NSURL URLWithString:model.user[@"avatar_s"]] options:YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation];
-  
-    
-    
+
     cell.userLabel.text = model.user[@"name"];
     return cell;
 }
@@ -150,6 +147,7 @@ static NSString * const reuseIdentifier = @"Cell";
     RecommendModel * model = [self.dataDict objectForKey:self.dataArr[indexPath.item]];
     
     storyDetail.spot_id = model.spot_id;
+    storyDetail.name = model.index_cover;
     
     [self.navigationController pushViewController:storyDetail animated:YES];
 }

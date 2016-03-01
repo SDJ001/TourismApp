@@ -10,4 +10,5 @@
 
 @interface StoryDetail_TableViewController : UITableViewController
 @property (strong, nonatomic) NSNumber  * spot_id;
+@property (strong, nonatomic) NSString  *name;
 @end
